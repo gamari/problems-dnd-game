@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { useDraggable } from "@dnd-kit/core";
 
@@ -11,12 +11,27 @@ interface Props {
 }
 
 export const DraggableNumber = ({ id, children, className }: Props) => {
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: id,
-  });
+  const { attributes, listeners, setNodeRef, transform, isDragging } =
+    useDraggable({
+      id: id,
+    });
+
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [prevPosition, setPrevPosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    if (isDragging && transform) {
+      setPosition({
+        x: transform.x + prevPosition.x,
+        y: transform.y + prevPosition.y,
+      });
+    } else {
+      setPrevPosition(position);
+    }
+  }, [isDragging, transform]);
 
   const style = {
-    transform: `translate(${transform?.x}px, ${transform?.y}px)`,
+    transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
   };
 
   return (

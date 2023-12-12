@@ -32,14 +32,14 @@ export const Game = () => {
     const number = parseInt(active.id as string);
 
     if (over) {
-      removeEvenNumber(number);
-      removeOddNumber(number);
-
       if (over.id === "odd") {
         addOddNumber(number);
       } else if (over.id === "even" && number % 2 === 0) {
         addEvenNumber(number);
       }
+    } else {
+      removeOddNumber(number);
+      removeEvenNumber(number);
     }
   }
 
@@ -67,19 +67,23 @@ export const Game = () => {
             id="odd"
             label="奇数"
             className="h-[200px] w-[200px] bg-orange-50"
-          />
+          >
+            <div className="absolute top-0 right-0">{oddNumbers.length}個</div>
+          </DroppableBox>
           <DroppableBox
             id="even"
             label="偶数"
             className="h-[200px] w-[200px] bg-sky-50"
-          />
+          >
+            <div className="absolute top-0 right-0">{evenNumbers.length}個</div>
+          </DroppableBox>
         </div>
         <div className="flex flex-row gap-4">
           {numbers.map((num) => (
             <DraggableNumber
               key={num}
               id={num.toString()}
-              className="rounded-full bg-green-500 text-white h-6 w-6 flex items-center justify-center"
+              className="rounded-full bg-green-500 text-white h-12 w-12 text-lg flex items-center justify-center"
             >
               {num}
             </DraggableNumber>
