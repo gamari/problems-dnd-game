@@ -16,22 +16,14 @@ export const DraggableNumber = ({ id, children, className }: Props) => {
       id: id,
     });
 
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [prevPosition, setPrevPosition] = useState({ x: 0, y: 0 });
-
   useEffect(() => {
-    if (isDragging && transform) {
-      setPosition({
-        x: transform.x + prevPosition.x,
-        y: transform.y + prevPosition.y,
-      });
-    } else {
-      setPrevPosition(position);
+    if (isDragging) {
+      console.log(setNodeRef);
     }
-  }, [isDragging, transform]);
+  }, [isDragging]);
 
   const style = {
-    transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
+    transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined
   };
 
   return (
